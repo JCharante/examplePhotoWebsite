@@ -1,2 +1,21 @@
-# examplePhotoWebsite
-sdfghj
+- [ ] Client
+    - [ ] Homepage
+        - [ ] View Images
+            - [ ] Like Images (javascript)
+            - [ ] Display (javascript)
+                - [ ] Grid
+                    - [ ] Image size in grid dependant on image resolution 
+    
+- [ ] Server
+    - [ ] Homepage with jinja2 (html/css)
+    - [ ] Like Images (Database - Python)
+    - User Accounts
+        - [ ] User Table (Databases - Python)
+    - [ ] Admin Panel
+        - [ ] Admin Accounts
+            - [ ] Password Hashing (bcrypt - Python)
+            - [ ] User Table (Databases - Python)
+    - [ ] Upload Images
+        - [ ] Image Table (Databases - Python)
+    - [ ] Edit/Remove Images
+        - [ ] Image Table (Databases - Python)
