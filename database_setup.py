@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 import config
@@ -13,6 +13,7 @@ class User(Base):
     uid = Column(String())
     username = Column(String())
     hashed_password = Column(String())
+    is_admin = Column(Boolean)
 
 # Create an engine that stores data in the local directory's
 # database.db file.

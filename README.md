@@ -10,15 +10,14 @@
     - [ ] Homepage with jinja2 (html/css)
     - [ ] Like Images (Database - Python)
     - User Accounts
+        - [x] Password Hashing (bcrypt - Python)
         - [x] Account Creation
-        - [ ] Logging into accounts
+        - [x] Logging into accounts
         - [x] Routes
         - [ ] Cookies - uid
         - [x] User Table (Databases - Python)
+        - [x] Admin Accounts
     - [ ] Admin Panel
-        - [ ] Admin Accounts
-            - [ ] Password Hashing (bcrypt - Python)
-            - [ ] User Table (Databases - Python)
     - [ ] Upload Images
         - [x] Routes
         - [ ] Image Table (Databases - Python)

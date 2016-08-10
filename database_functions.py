@@ -27,7 +27,8 @@ def create_user(username, password):
         hashed_password = helper_functions.encrypt_new_password(password)
         session.add(User(uid=uid,
                          username=username,
-                         hashed_password=hashed_password
+                         hashed_password=hashed_password,
+                         is_admin=False
                          ))
         session.commit()
         return True, uid
