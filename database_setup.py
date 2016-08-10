@@ -15,6 +15,14 @@ class User(Base):
     hashed_password = Column(String())
     is_admin = Column(Boolean)
 
+
+class Image(Base):
+    __tablename__ = 'Images'
+    pk = Column(Integer, primary_key=True)
+    title = Column(String())
+    owner = Column(String())  # The uid of the image uploader
+    filename = Column(String())
+
 # Create an engine that stores data in the local directory's
 # database.db file.
 engine = create_engine(config.path_to_db())
