@@ -34,7 +34,24 @@ def route_account_create():
 
 @app.route('/account/login', methods=['GET', 'POST', 'OPTIONS'])
 def route_account_login():
-    return
+    if request.method == 'GET':
+        return "Not yet implemented"
+    elif request.method == 'POST':
+        data = request.json
+        response = {
+            'success': False
+        }
+        if data is not None:
+            username = data.get('username', None)
+            password = data.get('password', None)
+            if username is not None and password is not None:
+                attempt = database_functions.login(username, password)
+                if attempt[0] is True:
+                    response['success'] = True
+                    response['uid'] = attempt[1]
+        return jsonify(**response)
+    else:
+        return
 
 @app.route('/image/upload', methods=['GET', 'POST', 'OPTIONS'])
 def route_image_upload():

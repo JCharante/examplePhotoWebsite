@@ -33,3 +33,14 @@ def create_user(username, password):
         return True, uid
     else:
         return False, ''
+
+def login(username, password):
+    if username_is_taken(username):
+        stored_user = session.query(User).filter(User.username == username).first()
+        stored_password = stored_user.hashed_password
+        stored_uid = stored_user.uid
+        # Compared the newly encrypted password to the stored encrypted password
+        if helper_functions.encrypt_password(stored_password, password) == stored_password:
+            # User has correct password
+            return True, stored_uid
+    return False, ''
