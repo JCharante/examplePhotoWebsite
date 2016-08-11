@@ -14,7 +14,7 @@ def admin_panel():
 @app.route('/account/create', methods=['GET', 'POST', 'OPTIONS'])
 def route_account_create():
     if request.method == 'GET':
-        return "Not yet implemented"
+        return render_template("signup.html")
     elif request.method == 'POST':
         data = request.json
         response = {
@@ -35,7 +35,7 @@ def route_account_create():
 @app.route('/account/login', methods=['GET', 'POST', 'OPTIONS'])
 def route_account_login():
     if request.method == 'GET':
-        return "Not yet implemented"
+        return render_template("login.html");
     elif request.method == 'POST':
         data = request.json
         response = {
