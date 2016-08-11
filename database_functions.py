@@ -49,20 +49,24 @@ def login(username, password):
     return False, ''
 
 
-def new_image(title, owner, filename):
+def new_image(title, owner, filename, iid=None):
     try:
+        if iid is None:
+            iid = helper_functions.generate_uid()
         session.add(Image(owner=owner,
                           title=title,
-                          filename=filename
+                          filename=filename,
+                          likes=0,
+                          iid=iid
                           ))
         session.commit()
-        return True, session.query(Image).filter(Image.owner == owner).filter(Image.title == title).filter(filename == filename).first().pk
+        return True, session.query(Image).filter(Image.iid == iid).first().iid
     except:
         return False, ''
 
 
 def get_file_name_for_image(image_id):
-    image = session.query(Image).filter(Image.pk == image_id).first()
+    image = session.query(Image).filter(Image.iid == image_id).first()
     if image is not None:
         return True, image.filename
     else:

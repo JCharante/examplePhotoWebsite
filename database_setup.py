@@ -19,7 +19,9 @@ class User(Base):
 class Image(Base):
     __tablename__ = 'Images'
     pk = Column(Integer, primary_key=True)
+    iid = Column(String())
     title = Column(String())
+    likes = Column(Integer)
     owner = Column(String())  # The uid of the image uploader
     filename = Column(String())
 

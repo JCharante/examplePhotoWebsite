@@ -1,10 +1,15 @@
-db_paths = {
-    'JCharante': 'sqlite:////home/jcharante/Projects/ePW/database.db',
-    'Nutmeag': 'sqlite:////home/student/examplePhotoWebsite/database.db'
+project_directories = {
+    'JCharante': '/home/jcharante/Projects/ePW',
+    'Nutmeag': '/home/student/examplePhotoWebsite'
 }
+
 
 current_developer = 'JCharante'
 
 
 def path_to_db():
-    return db_paths[current_developer]
+    return 'sqlite:///' + project_directories[current_developer] + '/database.db'
+
+
+def image_storage_path():
+    return project_directories[current_developer] + '/images'

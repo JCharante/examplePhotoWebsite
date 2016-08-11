@@ -2,10 +2,12 @@ import os
 from flask import Flask, request, jsonify, url_for, render_template, make_response, redirect, current_app, send_from_directory
 from werkzeug.utils import secure_filename
 import helper_functions, database_functions
+import config
 
 #UPLOAD_FOLDER = '/images'
-UPLOAD_FOLDER = '/home/jcharante/Projects/ePW/images'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+#UPLOAD_FOLDER = '/home/jcharante/Projects/ePW/images'
+UPLOAD_FOLDER = config.image_storage_path()
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -110,8 +112,10 @@ def route_image_upload():
             return jsonify(**response)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            image_iid = helper_functions.generate_uid()
+            filename = image_iid + '.' + filename.split('.')[len(filename.split('.')) - 1]
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            si = database_functions.new_image("untitled", "unclaimed", filename)
+            si = database_functions.new_image("untitled", "unclaimed", filename, iid=image_iid)
             if si[0]:
                 response['image_id'] = si[1]
                 response['success'] = True
@@ -130,7 +134,7 @@ def route_image_remove(image_id):
     return
 
 
-@app.route('/image/<int:image_id>/view')
+@app.route('/image/<image_id>/view')
 def route_image_view(image_id):
     filename = database_functions.get_file_name_for_image(image_id)[1]
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
