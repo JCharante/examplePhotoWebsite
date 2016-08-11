@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, User
+from database_setup import Base, User, Image
 import helper_functions
 import config
 
@@ -9,6 +9,7 @@ engine = create_engine(config.path_to_db())
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
 
 def username_is_taken(username):
     if session.query(User).filter(User.username == username).first() is not None:
@@ -35,6 +36,7 @@ def create_user(username, password):
     else:
         return False, ''
 
+
 def login(username, password):
     if username_is_taken(username):
         stored_user = session.query(User).filter(User.username == username).first()
@@ -45,3 +47,37 @@ def login(username, password):
             # User has correct password
             return True, stored_uid
     return False, ''
+
+
+def new_image(title, owner, filename, iid=None):
+    try:
+        if iid is None:
+            iid = helper_functions.generate_uid()
+        session.add(Image(owner=owner,
+                          title=title,
+                          filename=filename,
+                          likes=0,
+                          iid=iid
+                          ))
+        session.commit()
+        return True, session.query(Image).filter(Image.iid == iid).first().iid
+    except:
+        return False, ''
+
+
+def get_file_name_for_image(image_id):
+    image = session.query(Image).filter(Image.iid == image_id).first()
+    if image is not None:
+        return True, image.filename
+    else:
+        return False, 'error.png'
+
+
+def claim_image(title, owner, image_id):
+    image = session.query(Image).filter(Image.pk == image_id).first()
+    if image is not None:
+        if image.owner == "unclaimed":
+            image.owner = owner
+            image.title = title
+            session.commit()
+    return False

@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Sign up</title>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
+    <!-- JS Cookie Lib -->
+    <script src="{{ url_for('static', filename='external/js.cookie.js') }}"></script>
 
     <style>
 
@@ -34,6 +38,40 @@
         }
 
     </style>
+
+    <script>
+        $(document).ready(function() {
+            var server_address = "http://localhost:7004";
+            $('#submit').click(function(e) {
+                e.preventDefault();
+                signUp()
+            });
+
+            function signUp() {
+                var username = $('#username').val();
+                var password = $('#password').val();
+                var json_data = {
+                    username: username,
+                    password: password
+                };
+                $.ajax({
+                    method: 'POST',
+                    url: server_address + '/account/create',
+                    data: JSON.stringify(json_data),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function(data) {
+                        if (data.success) {
+                            Cookies.set('uid', data.uid);
+                            console.log(data);
+                        } else {
+                            console.log(data)
+                        }
+                    }
+                })
+            }
+        })
+    </script>
 </head>
 <body>
 
