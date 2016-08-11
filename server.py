@@ -30,7 +30,7 @@ def admin_panel():
 @app.route('/account/create', methods=['GET', 'POST', 'OPTIONS'])
 def route_account_create():
     if request.method == 'GET':
-        return "Not yet implemented"
+        return render_template("signup.html")
     elif request.method == 'POST':
         data = request.json
         response = {
@@ -132,7 +132,7 @@ def route_image_remove(image_id):
 
 @app.route('/image/<int:image_id>/view')
 def route_image_view(image_id):
-    filename = database_functions.get_file_name_for_image(image_id)
+    filename = database_functions.get_file_name_for_image(image_id)[1]
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 

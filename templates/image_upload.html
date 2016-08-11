@@ -23,26 +23,9 @@
                 // Redirect to login page
             }
 
-            // Variables for uploading the file
-
-            // Variable to store your files
-            //var files;
-
-            // Add events
-            //$('input[type=file]').on('change', prepareUpload);
-
-            // Grab the files and set them to our variable
-            //function prepareUpload(event) {
-            //  files = event.target.files;
-            //}
-
             // Code for uploading image & later claiming it.
             var server_address = "http://localhost:7004";
             function uploadImage() {
-                //var data = new FormData();
-                //$.each(files, function(key, value) {
-                //    data.append(key, value);
-                //});
                 var form_data = new FormData($('#upload-file')[0]);
                 $.ajax({
                     type: 'POST',
@@ -57,23 +40,6 @@
                         claimImage(data);
                     }
                 });
-                /*
-                $.ajax({
-                    method: 'POST',
-                    url: server_address + '/image/upload',
-                    data: form_data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(data) {
-                        if (data.success) {
-                            claimImage(data)
-                        } else {
-                            console.log(data);
-                        }
-                    }
-                });
-                */
             }
 
             function claimImage(data) {
@@ -84,6 +50,7 @@
                     uid: uid,
                     image_id: image_id
                 };
+                console.log(json_data);
                 $.ajax({
                     method: 'POST',
                     url: server_address + '/image/claim',
@@ -105,24 +72,6 @@
 </head>
 <body>
     <div class="container">
-        <!--
-        <form action="#">
-            <div class="file-field input-field">
-                <div class="btn">
-                    <span>File</span>
-                    <input id="chosen_image" type="file" name="file">
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text">
-                </div>
-            </div>
-            <div class="input-field col s6">
-              <input placeholder="Untitled Image" id="title" type="text" class="validate">
-              <label for="title"></label>
-            </div>
-            <a class="waves-effect waves-light btn" id="submit_button">Upload Image</a>
-        </form>
-        -->
         <form id="upload-file" method="post" enctype="multipart/form-data">
             <fieldset>
                 <label for="file">Select a file</label>
@@ -130,7 +79,7 @@
             </fieldset>
             <fieldset>
                 <label for="image_title">Image Title:</label>
-                <input name="image_title" type="text">
+                <input id="image_title" name="image_title" type="text">
             </fieldset>
             <fieldset>
                 <button id="upload-file-btn" type="button">Upload</button>
