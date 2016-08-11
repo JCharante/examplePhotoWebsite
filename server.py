@@ -140,9 +140,10 @@ def route_image_view(image_id):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
-@app.route('/image/<int:image_id>/like', methods=['GET', 'POST', 'OPTIONS'])
+@app.route('/image/<image_id>/like', methods=['GET', 'POST', 'OPTIONS'])
 def route_image_like(image_id):
-    return
+    database_functions.like_image(image_id)
+    return ""
 
 
 app.run(debug=True, host='0.0.0.0', port=7004)

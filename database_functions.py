@@ -81,3 +81,10 @@ def claim_image(title, owner, image_id):
             image.title = title
             session.commit()
     return False
+
+def like_image(image_id):
+    image = session.query(Image).filter(Image.iid == image_id).first()
+    if image is not None:
+        image.likes += 1
+        session.commit()
+    return
