@@ -1,5 +1,17 @@
 - [ ] Client
     - [ ] Homepage
+        - [x] title/menu bar
+            - [x] menu bar
+                - [x] log in button
+                - [x] sgn up button
+            - [x] title
+        - [ ] photo gallery
+            - [ ] rows
+                - [ ] three images
+
+
+
+
         - [ ] View Images
             - [ ] Like Images (javascript)
             - [ ] Display (javascript)

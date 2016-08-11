@@ -24,6 +24,7 @@ class Image(Base):
     likes = Column(Integer)
     owner = Column(String())  # The uid of the image uploader
     filename = Column(String())
+    claimed = Column(Boolean)  # 0 = Unclaimed, 1 = Claimed
 
 # Create an engine that stores data in the local directory's
 # database.db file.

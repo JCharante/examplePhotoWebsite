@@ -2,9 +2,109 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Homepage</title>
+    <title>Dig-Image</title>
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+
+    <!-- JS Cookie Lib -->
+    <script src="{{ url_for('static', filename='external/js.cookie.js') }}"></script>
+
+    <style>
+        .thumbnail {
+            height: 350px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            var server_address = "http://localhost:7004";
+
+            function generatePhotoTile(color) {
+                response = '';
+                response += '<div class="col s12 m6 l4"> <div class="thumbnail" style="background-color: ';
+                response += color;
+                response += ';"> </div> <div class="row"> <div> <p class="col s7">Image Title</p> </div> <div> <a class="col s2 center" href="#" style="margin-top: 12px"><button> Like </button></a> <p class="col s3 center">0 Likes</p> </div> </div> </div>'
+                return response
+            }
+
+            function populatePhotoGallery(numberOfPhotos) {
+                for (var i = 0; i < numberOfPhotos; i++) {
+                    var photoTile = '';
+                    if (i % 3 == 0) {
+                        photoTile = generatePhotoTile("red");
+                    } else if (i % 3 == 1) {
+                        photoTile = generatePhotoTile("green");
+                    } else if (i % 3 == 2) {
+                        photoTile = generatePhotoTile("blue");
+                    }
+                    $('#photoGallery').append(photoTile);
+                }
+            }
+
+            //var example = {
+            //    a: "a value",
+            //    b: "b value"
+            //};
+            //console.log(example);
+            //console.log(example.b); // "b value"
+
+            $.ajax({
+                method: 'GET',
+                url: server_address + '/image/count',
+                dataType: "json",
+                success: function(data) {
+                    if (data.success) {
+                        populatePhotoGallery(data.number_of_images);
+                    } else {
+                        console.log(data)
+                    }
+                }
+            })
+        })
+    </script>
 </head>
-<body>
-    Rawr
+<body class="" style="background-color: crimson">
+    <div class="container">
+        <!-- Title / Menu Bar Section -->
+        <div>
+            <!-- Menu Bar Section -->
+            <div>
+                <a href="account/login"><button> login </button></a>
+                <a href="account/create"><button> sign up </button></a>
+            </div>
+            <!-- Title Section -->
+            <div>
+                <h1 class="center green-text darken-4">Dig-Image</h1>
+            </div>
+        </div>
+        <!-- Photo Gallery -->
+        <div>
+            <div class="row" id="photoGallery">
+                <!--
+                <div class="col s12 m6 l4">
+                    <div class="thumbnail" style="background-color: red;">
+
+                    </div>
+                    <div class="row">
+                        <div>
+                            <p class="col s7">Image Title</p>
+                        </div>
+                        <div>
+                            <a class="col s2 center" href="#" style="margin-top: 12px"><button> Like </button></a>
+                            <p class="col s3 center">0 Likes</p>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
 </body>
 </html>

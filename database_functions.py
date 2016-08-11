@@ -57,7 +57,8 @@ def new_image(title, owner, filename, iid=None):
                           title=title,
                           filename=filename,
                           likes=0,
-                          iid=iid
+                          iid=iid,
+                          claimed=False
                           ))
         session.commit()
         return True, session.query(Image).filter(Image.iid == iid).first().iid
@@ -74,12 +75,14 @@ def get_file_name_for_image(image_id):
 
 
 def claim_image(title, owner, image_id):
-    image = session.query(Image).filter(Image.pk == image_id).first()
+    image = session.query(Image).filter(Image.iid == image_id).first()
     if image is not None:
         if image.owner == "unclaimed":
             image.owner = owner
             image.title = title
+            image.claimed = True
             session.commit()
+            return True
     return False
 
 def like_image(image_id):
@@ -88,3 +91,11 @@ def like_image(image_id):
         image.likes += 1
         session.commit()
     return
+
+
+def number_of_images():
+    count = 0
+    for image in session.query(Image).filter(Image.claimed == True).all():
+        print(image.claimed)
+        count += 1
+    return count

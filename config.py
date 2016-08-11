@@ -4,7 +4,7 @@ project_directories = {
 }
 
 
-current_developer = 'JCharante'
+current_developer = 'Nutmeag'
 
 
 def path_to_db():

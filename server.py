@@ -54,7 +54,7 @@ def route_account_create():
 @app.route('/account/login', methods=['GET', 'POST', 'OPTIONS'])
 def route_account_login():
     if request.method == 'GET':
-        return render_template("login.html");
+        return render_template("login.html")
     elif request.method == 'POST':
         data = request.json
         response = {
@@ -144,6 +144,13 @@ def route_image_view(image_id):
 def route_image_like(image_id):
     database_functions.like_image(image_id)
     return ""
+
+@app.route('/image/count')
+def route_image_count():
+    response = dict()
+    response['success'] = True
+    response['number_of_images'] = database_functions.number_of_images()
+    return jsonify(**response)
 
 
 app.run(debug=True, host='0.0.0.0', port=7004)
