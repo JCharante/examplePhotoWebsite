@@ -42,9 +42,9 @@
                 });
             }
 
-            function claimImage(data) {
+            function claimImage(upload_response_data) {
                 var image_title = $('#image_title').val();
-                var image_id = data.image_id;
+                var image_id = upload_response_data.image_id;
                 var json_data = {
                     title: image_title,
                     uid: uid,
@@ -60,6 +60,7 @@
                     success: function(data) {
                         if (data.success) {
                             console.log("Success!");
+                            window.location = server_address + '/image/' + image_id + '/view'
                         } else {
                             console.log(data)
                         }
