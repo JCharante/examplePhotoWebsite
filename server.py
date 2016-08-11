@@ -54,7 +54,7 @@ def route_account_create():
 @app.route('/account/login', methods=['GET', 'POST', 'OPTIONS'])
 def route_account_login():
     if request.method == 'GET':
-        return "Not yet implemented"
+        return render_template("login.html");
     elif request.method == 'POST':
         data = request.json
         response = {
