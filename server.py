@@ -145,6 +145,7 @@ def route_image_like(image_id):
     database_functions.like_image(image_id)
     return ""
 
+
 @app.route('/image/count')
 def route_image_count():
     response = dict()
@@ -155,8 +156,9 @@ def route_image_count():
 
 @app.route('/image/homepage')
 def route_image_homepage():
-    response = dict()
+    response = database_functions.homepage_images()
     response['success'] = True
+    return jsonify(**response)
 
 
 

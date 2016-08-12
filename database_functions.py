@@ -102,14 +102,29 @@ def number_of_images():
 
 
 def homepage_images():
-    response = dict()
+    response = {
+        'images': []
+    }
     """
     response = {
         images: [
-            ["image_id", "image_title", "image_like_count"],
-            ["image_id", "image_title", "image_like_count"]
-        ]
+                    {
+                        "image_id": "wijdiwjd",
+                        "image_title": "Sunny Skies at the Park",
+                        "image_like_count": 0
+                    },
+                    {
+                        "image_id": "wijdiwjd",
+                        "image_title": "Sunny Skies at the Park",
+                        "image_like_count": 0
+                    }
+                ]
     }
     """
     for image in session.query(Image).filter(Image.claimed == True).all():
-        response.append
+        response['images'].append({
+            "image_id": image.iid,
+            "image_title": image.title,
+            "likes": image.likes
+        })
+    return response
