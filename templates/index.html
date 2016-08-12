@@ -46,14 +46,16 @@
 
             if(loggedIn){
                 $("#login-button").hide();
+                $('#create-button').hide();
             } else {
                 $("#logout-button").hide();
             }
 
             $("#logout-button").click(function(){
                loggedIn = false;
-                $("#login-button").show();
                 $("#logout-button").hide();
+                $("#login-button").show();
+                $('#create-button').show();
                 Cookies.set('uid', null);
 
             });

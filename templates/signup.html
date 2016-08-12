@@ -9,6 +9,12 @@
     <!-- JS Cookie Lib -->
     <script src="{{ url_for('static', filename='external/js.cookie.js') }}"></script>
 
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+
     <style>
 
         body {
@@ -81,11 +87,11 @@
     </script>
 </head>
 <body>
-
+    <div class="container"
      <div class="login">
         <form action="/account/create" method="POST">
             <div class="login-box">
-                  <input id="email" type="email"placeholder="email-address"/>
+                  <input id="email" type="email" placeholder="email-address"/>
             </div>
             <div class="login-box">
                 <input id="username" type="text" placeholder="username"/>
