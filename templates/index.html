@@ -37,12 +37,12 @@
         $(document).ready(function() {
             var server_address = "http://localhost:7004";
 
-            function generatePhotoTile(color, imageTitle) {
+            function generatePhotoTile(imageTitle, image_id) {
 
                 response = '';
-                response += '<div class="col s12 m6 l4"> <div class="thumbnail" style="background-color: ';
-                response += color;
-                response += ';"> </div>';
+                response += '<div class="col s12 m6 l4"> <div class="thumbnail">';
+                response += '';
+                response += '</div>';
                 response += '<div class="row">';
                 response += '<div> <p class="col s7">';
                 response += imageTitle;
@@ -50,9 +50,12 @@
                 return response
             }
 
-            function populatePhotoGallery(numberOfPhotos) {
-                for (var i = 0; i < numberOfPhotos; i++) {
-                    var photoTile = '';
+            function populatePhotoGallery(data) {
+                // Here's a for loop
+                for (var i = 0; i < data.images.length; i++) {
+                    // This is the variable that holds the html for the photoTile that we'll add to the gallery
+                    var photoTile = generatePhotoTile(data.images[i].image_title)
+                    /*
                     if (i % 3 == 0) {
                         photoTile = generatePhotoTile("red", "the image is red");
                     } else if (i % 3 == 1) {
@@ -60,6 +63,7 @@
                     } else if (i % 3 == 2) {
                         photoTile = generatePhotoTile("blue", "this image is blue");
                     }
+                    */
                     $('#photoGallery').append(photoTile);
                 }
             }
@@ -73,11 +77,11 @@
 
             $.ajax({
                 method: 'GET',
-                url: server_address + '/image/count',
+                url: server_address + '/image/homepage',
                 dataType: "json",
                 success: function(data) {
                     if (data.success) {
-                        populatePhotoGallery(data.number_of_images);
+                        populatePhotoGallery(data);
                     } else {
                         console.log(data)
                     }
