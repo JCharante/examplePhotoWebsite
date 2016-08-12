@@ -37,24 +37,41 @@
         $(document).ready(function() {
             var server_address = "http://localhost:7004";
 
-            function generatePhotoTile(imageTitle, image_id) {
-
+            function generatePhotoTile(imageTitle, image_id, image_likes) {
                 response = '';
                 response += '<div class="col s12 m6 l4"> <div class="thumbnail">';
-                response += '';
+                response += '<img style="width: 100%" src="' + server_address + '/image/' + image_id + '/view">';
                 response += '</div>';
                 response += '<div class="row">';
                 response += '<div> <p class="col s7">';
                 response += imageTitle;
-                response += '</p> </div> <div> <a class="col s2 center" href="#" style="margin-top: 12px"><button> Like </button></a> <p class="col s3 center">0 Likes</p> </div> </div> </div>'
+                response += '</p> </div> <div>';
+                response += '<button class="likeButton" style="margin-top: 12px" data-image-id="';
+                response += image_id;
+                response += '"> Like </button>';
+                response += '<p class="col s3 center">';
+                response += image_likes;
+                response += ' Likes</p> </div> </div> </div>';
                 return response
             }
+
+            $(document).on('click', '.likeButton', function() {
+                var image_id = $(this).attr('data-image-id');
+                $.ajax({
+                    method: 'GET',
+                    url: server_address + '/image/' + image_id + '/like',
+                    success: function(data) {
+                        console.log(data);
+                    }
+                })
+
+            });
 
             function populatePhotoGallery(data) {
                 // Here's a for loop
                 for (var i = 0; i < data.images.length; i++) {
                     // This is the variable that holds the html for the photoTile that we'll add to the gallery
-                    var photoTile = generatePhotoTile(data.images[i].image_title)
+                    var photoTile = generatePhotoTile(data.images[i].image_title, data.images[i].image_id, data.images[i].likes);
                     /*
                     if (i % 3 == 0) {
                         photoTile = generatePhotoTile("red", "the image is red");
