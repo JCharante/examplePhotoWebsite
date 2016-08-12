@@ -19,6 +19,8 @@
     <style>
         .thumbnail {
             height: 350px;
+            border: 2px solid #EEEEFF;
+            box-shadow: 5px 5px 20px #330000;
         }
         .top-bar{
             text-align: right;
@@ -36,6 +38,25 @@
     <script>
         $(document).ready(function() {
             var server_address = "http://localhost:7004";
+            var loggedIn = true;
+            var uid = Cookies.get('uid');
+            if (uid == undefined) {
+                loggedIn = false;
+            }
+
+            if(loggedIn){
+                $("#login-button").hide();
+            } else {
+                $("#logout-button").hide();
+            }
+
+            $("#logout-button").click(function(){
+               loggedIn = false;
+                $("#login-button").show();
+                $("#logout-button").hide();
+                Cookies.set('uid', null);
+
+            });
 
             function generatePhotoTile(imageTitle, image_id, image_likes) {
                 response = '';
@@ -104,6 +125,8 @@
                     }
                 }
             })
+
+
         })
     </script>
 </head>
@@ -117,8 +140,9 @@
                     <a href="image/upload"><button> upload </button></a>
                 </div>
                 <div class="top-bar-right">
-                    <a href="account/login"><button> login </button></a>
-                    <a href="account/create"><button> sign up </button></a>
+                    <a href="account/login" id="login-button"><button> login </button></a>
+                    <a href="account/create" id="create-button"><button> sign up </button></a>
+                    <a href="#" id="logout-button"><button> log out </button></a>
                 </div>
             </div>
             <!-- Title Section -->
