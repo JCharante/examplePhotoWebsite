@@ -124,12 +124,12 @@ def route_image_upload():
         return
 
 
-@app.route('/image/<int:image_id>/edit', methods=['GET', 'POST', 'OPTIONS'])
+@app.route('/image/<image_id>/edit', methods=['GET', 'POST', 'OPTIONS'])
 def route_image_edit(image_id):
     return
 
 
-@app.route('/image/<int:image_id>/remove', methods=['GET', 'POST', 'OPTIONS'])
+@app.route('/image/<image_id>/remove', methods=['GET', 'POST', 'OPTIONS'])
 def route_image_remove(image_id):
     return
 
@@ -151,6 +151,13 @@ def route_image_count():
     response['success'] = True
     response['number_of_images'] = database_functions.number_of_images()
     return jsonify(**response)
+
+
+@app.route('/image/homepage')
+def route_image_homepage():
+    response = dict()
+    response['success'] = True
+
 
 
 app.run(debug=True, host='0.0.0.0', port=7004)

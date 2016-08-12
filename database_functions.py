@@ -99,3 +99,17 @@ def number_of_images():
         print(image.claimed)
         count += 1
     return count
+
+
+def homepage_images():
+    response = dict()
+    """
+    response = {
+        images: [
+            ["image_id", "image_title", "image_like_count"],
+            ["image_id", "image_title", "image_like_count"]
+        ]
+    }
+    """
+    for image in session.query(Image).filter(Image.claimed == True).all():
+        response.append
