@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <!-- JS Cookie Lib -->
+    <script src="{{ url_for('static', filename='external/js.cookie.js') }}"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+
+    <style>
+
+        body {
+            background-color: #f48fb1;
+        }
+        .login{
+            background-color: #1e88e5;
+            width: 1000px;
+
+        }
+        .login-box{
+            background-color: #f48fb1;
+            height: 100%;
+            padding: 10px;
+
+        }
+
+        .login-box input{
+            font-size: 32pt;
+            color: white;
+            padding: 5px;
+            border-radius: 20px;
+            background-color: #1e88e5 ;
+        }
+        #submit:hover {
+            background-color: #EEEEFF;
+        }
+
+    </style>
+
+    <script>
+
+        $(document).ready(function() {
+            var server_address = "http://localhost:7004";
+
+            function goToHomePage() {
+                window.location = server_address
+            }
+
+            $('#submit').click(function(e) {
+                e.preventDefault();
+                signUp();
+            });
+
+            function signUp() {
+                var username = $('#username').val();
+                var password = $('#password').val();
+                var json_data = {
+                    username: username,
+                    password: password
+                };
+                $.ajax({
+                    method: 'POST',
+                    url: server_address + '/account/create',
+                    data: JSON.stringify(json_data),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function(data) {
+                        if (data.success) {
+                            Cookies.set('uid', data.uid);
+                            console.log(data);
+                            goToHomePage();
+                        } else {
+                            console.log(data)
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+</head>
+<body>
+    <div class="container"
+     <div class="login">
+        <form action="/account/create" method="POST">
+            <div class="login-box">
+                  <input id="email" type="email" placeholder="email-address"/>
+            </div>
+            <div class="login-box">
+                <input id="username" type="text" placeholder="username"/>
+            </div>
+            <div class="login-box">
+                <input id="password" type="password" placeholder="password"/>
+            </div>
+            <div class="login-box">
+                <input id="password-confirm" type="password" placeholder="confirm password"/>
+            </div>
+            <div class="login-box">
+               <input type="submit" id="submit"/>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

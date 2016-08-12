@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dig-Image</title>
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+
+    <!-- JS Cookie Lib -->
+    <script src="{{ url_for('static', filename='external/js.cookie.js') }}"></script>
+
+    <style>
+        .thumbnail {
+            height: 350px;
+            border: 2px solid #EEEEFF;
+            box-shadow: 5px 5px 20px #330000;
+        }
+        .top-bar{
+            text-align: right;
+            display: flex;
+        }
+        .top-bar div{
+            flex: 1;
+        }
+        .top-bar-left{
+            text-align: left;
+        }
+
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            var server_address = "http://localhost:7004";
+            var loggedIn = true;
+            var uid = Cookies.get('uid');
+            if (uid == undefined) {
+                loggedIn = false;
+            }
+
+            if(loggedIn){
+                $("#login-button").hide();
+                $('#create-button').hide();
+            } else {
+                $("#logout-button").hide();
+            }
+
+            $("#logout-button").click(function(){
+               loggedIn = false;
+                $("#logout-button").hide();
+                $("#login-button").show();
+                $('#create-button').show();
+                Cookies.set('uid', null);
+
+            });
+
+            function generatePhotoTile(imageTitle, image_id, image_likes) {
+                response = '';
+                response += '<div class="col s12 m6 l4"> <div class="thumbnail">';
+                response += '<img style="width: 100%" src="' + server_address + '/image/' + image_id + '/view">';
+                response += '</div>';
+                response += '<div class="row">';
+                response += '<div> <p class="col s7">';
+                response += imageTitle;
+                response += '</p> </div> <div>';
+                response += '<button class="likeButton" style="margin-top: 12px" data-image-id="';
+                response += image_id;
+                response += '"> Like </button>';
+                response += '<p class="col s3 center">';
+                response += image_likes;
+                response += ' Likes</p> </div> </div> </div>';
+                return response
+            }
+
+            $(document).on('click', '.likeButton', function() {
+                var image_id = $(this).attr('data-image-id');
+                $.ajax({
+                    method: 'GET',
+                    url: server_address + '/image/' + image_id + '/like',
+                    success: function(data) {
+                        console.log(data);
+                    }
+                })
+
+            });
+
+            function populatePhotoGallery(data) {
+                // Here's a for loop
+                for (var i = 0; i < data.images.length; i++) {
+                    // This is the variable that holds the html for the photoTile that we'll add to the gallery
+                    var photoTile = generatePhotoTile(data.images[i].image_title, data.images[i].image_id, data.images[i].likes);
+                    /*
+                    if (i % 3 == 0) {
+                        photoTile = generatePhotoTile("red", "the image is red");
+                    } else if (i % 3 == 1) {
+                        photoTile = generatePhotoTile("green", "this image is green");
+                    } else if (i % 3 == 2) {
+                        photoTile = generatePhotoTile("blue", "this image is blue");
+                    }
+                    */
+                    $('#photoGallery').append(photoTile);
+                }
+            }
+
+            //var example = {
+            //    a: "a value",
+            //    b: "b value"
+            //};
+            //console.log(example);
+            //console.log(example.b); // "b value"
+
+            $.ajax({
+                method: 'GET',
+                url: server_address + '/image/homepage',
+                dataType: "json",
+                success: function(data) {
+                    if (data.success) {
+                        populatePhotoGallery(data);
+                    } else {
+                        console.log(data)
+                    }
+                }
+            })
+
+
+        })
+    </script>
+</head>
+<body class="" style="background-color: crimson">
+    <div class="container">
+        <!-- Title / Menu Bar Section -->
+        <div>
+            <!-- Menu Bar Section -->
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <a href="image/upload"><button> upload </button></a>
+                </div>
+                <div class="top-bar-right">
+                    <a href="account/login" id="login-button"><button> login </button></a>
+                    <a href="account/create" id="create-button"><button> sign up </button></a>
+                    <a href="#" id="logout-button"><button> log out </button></a>
+                </div>
+            </div>
+            <!-- Title Section -->
+            <div>
+                <h1 class="center green-text darken-4">Dig-Image</h1>
+            </div>
+        <!-- Photo Gallery -->
+        <div>
+            <div class="row" id="photoGallery">
+                <!--
+                <div class="col s12 m6 l4">
+                    <div class="thumbnail" style="background-color: red;">
+
+                    </div>
+                    <div class="row">
+                        <div>
+                            <p class="col s7">Image Title</p>
+                        </div>
+                        <div>
+                            <a class="col s2 center" href="#" style="margin-top: 12px"><button> Like </button></a>
+                            <p class="col s3 center">0 Likes</p>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
